@@ -1,3 +1,9 @@
+require("neogit").setup({
+  integrations = {
+    diffview = true,
+  },
+})
+
 require("gitsigns").setup {
     keymaps = {
         noremap = false
@@ -57,3 +63,7 @@ require("gitsigns").setup {
     diff_opts = {internal = true},
     yadm = {enable = false}
 }
+
+
+vim.keymap.set("n", "<leader>gs", "<cmd>Neogit<cr>")
+vim.keymap.set("n", "<leader>gc", "<cmd>Gitsigns preview_hunk<cr>")

@@ -1,5 +1,5 @@
-require("plugins-setup")
+require("remap")
+require("core")
+require("plugins")
 
-require("core.options")
-require("core.mappings")
-require("core.colorscheme")
+

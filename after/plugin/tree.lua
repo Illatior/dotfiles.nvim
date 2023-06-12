@@ -1,13 +1,6 @@
-local setup, nvimtree = pcall(require, "nvim-tree")
-if not setup then
-    return
-end
+nvimtree = require("nvim-tree")
 
-local setup, nvimtree_cfg = pcall(require, "nvim-tree.config")
-if not setup then
-    return
-end
-
+nvimtree_cfg = require("nvim-tree.config")
 
 vim.g.loaded = 1
 vim.g.loaded_netrwPlugin = 1
@@ -65,8 +58,6 @@ local function on_attach(bufnr)
   vim.keymap.set('n', 'g?', api.tree.toggle_help, opts('Help'))
 
 end
-
-local tree_cb = nvimtree_cfg.nvim_tree_callback
 nvimtree.setup({
   on_attach = on_attach,
 
@@ -76,97 +67,18 @@ nvimtree.setup({
   open_on_tab = true,
   hijack_cursor = true,
   update_cwd = true,
-  filters = {
-    dotfiles = false,
-  },
+  -- filters = {
+  --   dotfiles = false,
+  -- },
 
-  diagnostics = {
-    enable = true,
-    show_on_dirs = false,
-    icons = { hint = "", info = "", warning = "", error = "" },
-  },
-  git = {
-    enable = true,
-    ignore = true,
-    timeout = 400
-  },
-  update_focused_file = {
-    enable = true,
-    update_cwd = true,
-    ignore_list = { ".git" },
-  },
-  system_open = {
-    cmd = nil,
-    args = {},
-  },
   trash = { cmd = "trash-put", require_confirm = true }, -- TODO fixme
 
   actions = {
-    change_dir = { enable = true, global = false },
-    open_file = {
-      quit_on_open = true,
-      resize_window = false,
-      window_picker = {
-        enable = true,
-        exclude = {
-          filetype = {
-            "notify",
-            "packer",
-            "qf",
-            "diff",
-            "fugitive",
-            "fugitiveblame",
-          },
-          buftype = { "nofile", "terminal", "help" },
-        },
+      open_file = {
+          quit_on_open = true,
       },
-    },
   },
-  renderer = {
-    indent_markers = {
-      inline_arrows = true,
-      enable = true,
-      icons = {
-        corner = "└",
-        edge = "│",
-        none = " ",
-      },
-    },
-    icons = {
-      padding = " ",
-      symlink_arrow = " >> ",
-      show = {
-        git = true,
-        folder = true,
-        file = true,
-        folder_arrow = true,
-      },
-      glyphs = {
-        default = "",
-        symlink = "",
-        git = {
-          unstaged = "",
-          staged = "S",
-          unmerged = "",
-          renamed = "➜",
-          deleted = "",
-          untracked = "U",
-          ignored = "◌",
-        },
-        folder = {
-          default = "",
-          open = "",
-          empty = "",
-          empty_open = "",
-          symlink = "",
-        },
-      },
-    },
-    highlight_git = true,
-    highlight_opened_files = "3",
-    add_trailing = true,
-    group_empty = true,
-  },
+
   view = {
     number = false,
     relativenumber = false,
@@ -175,4 +87,4 @@ nvimtree.setup({
   },
 })
 
-
+vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>")

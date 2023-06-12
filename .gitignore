@@ -1,2 +1,4 @@
-plugin/
+./plugin/
 .luarc.json
+
+!after/
