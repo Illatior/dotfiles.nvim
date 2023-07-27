@@ -80,7 +80,12 @@ local plugins = {
 			{'L3MON4D3/LuaSnip'},     -- Required
 			{"rafamadriz/friendly-snippets"},
 		}
-	}
+	},
+
+
+    {
+        "jose-elias-alvarez/null-ls.nvim"
+    }
 }
 
 return plugins
