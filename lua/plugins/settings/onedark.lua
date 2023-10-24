@@ -1,4 +1,4 @@
-require("onedark").setup({
+return {
 	transparent = true,
 	style = 'deep',
 	term_colors = true,
@@ -21,6 +21,4 @@ require("onedark").setup({
 		undercurl = true,
 		background = true,
 	},
-})
-
-vim.cmd [[colorscheme onedark]]
+}
