@@ -1,7 +1,5 @@
 nvimtree = require("nvim-tree")
 
-nvimtree_cfg = require("nvim-tree.config")
-
 vim.g.loaded = 1
 vim.g.loaded_netrwPlugin = 1
 

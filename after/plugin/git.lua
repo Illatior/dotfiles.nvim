@@ -5,9 +5,6 @@ require("neogit").setup({
 })
 
 require("gitsigns").setup {
-    keymaps = {
-        noremap = false
-    },
     signs = {
         add = {
             hl = "GitSignsAdd",

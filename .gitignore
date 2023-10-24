@@ -1,2 +1,3 @@
-./plugin/
+plugin
 .luarc.json
+.DS_Store
