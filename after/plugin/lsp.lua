@@ -1,30 +1,27 @@
 local servers = {
-  gopls = {},
-  lua_ls = {
-      Lua = {
-          workspace = { 
-              checkThirdParty = false,
-              library = vim.api.nvim_get_runtime_file("", true)
-          },
-          diagnostics = { globals = { "vim" } },
-          runtime = { version = "LuaJIT" },
-          telemetry = { enable = false },
-      }
-  },
-  rust_analyzer = {},
-  tsserver = {},
-  solidity_ls_nomicfoundation = {},
-  pylsp = {},
+    'gopls',
+    'lua_ls',
+    'solidity_ls_nomicfoundation',
+    'pylsp',
 }
 
-local on_attach = function(_, bufnr) 
+local lsp = require('lsp-zero')
+lsp.preset('recommended')
+lsp.set_preferences {
+    sign_icons = {},
+}
+
+lsp.on_attach(function(_, bufnr)
     local nmap = function(keys, func, desc)
         if desc then
-            desc = 'LSP: ' .. desc
+            desc = "LSP: " .. desc
         end
 
-        vim.keymap.set('n', keys, func, { buffer = bufnr, noremap = true, desc = desc })
+        vim.keymap.set('n', keys, func, { noremap = true, buffer = bufnr, desc = desc })
     end
+
+    nmap('K', vim.lsp.buf.hover, "[K] hover documentation")
+    nmap('gd', vim.lsp.buf.definition, "[G]oto [D]efinition")
 
     nmap("gd", function() vim.lsp.buf.definition() end, "[g]oto [d]efinition")
     nmap("gD", function() vim.lsp.buf.declaration() end, "[g]oto [D]eclaration")
@@ -39,47 +36,38 @@ local on_attach = function(_, bufnr)
     nmap("[d", function() vim.diagnostic.goto_prev() end, "goto prev")
     nmap("<leader>vca", function() vim.lsp.buf.code_action() end, "code action")
     nmap("<leader>rn", function() vim.lsp.buf.rename() end, "[r]e[n]ame")
-
     nmap('<leader>wl', function()
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
     end, '[W]orkspace [L]ist Folders')
-end
+end)
 
-require("mason").setup()
-require("mason-lspconfig").setup()
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-
-
-local mason_lspconfig = require('mason-lspconfig')
-mason_lspconfig.setup({
-    ensure_installed = vim.tbl_keys(servers),
-})
-
-mason_lspconfig.setup_handlers {
-    function(server_name)
-        require('lspconfig')[server_name].setup {
-            capabilities = capabilities,
-            on_attach = on_attach,
-            settings = servers[server_name],
-            filetypes = (servers[server_name] or {}).filetypes,
-        }
-    end
+require('mason').setup {}
+require('mason-lspconfig').setup {
+    ensure_installed = servers,
+    handlers = {
+        lsp.default_setup,
+        lua_ls = function()
+            local lua_opts = lsp.nvim_lua_ls()
+            require('lspconfig').lua_ls.setup(lua_opts)
+        end,
+    },
 }
 
-local cmp = require("cmp")
+local cmp = require('cmp')
+local cmp_action = lsp.cmp_action()
 local luasnip = require("luasnip")
 require("luasnip.loaders.from_vscode").lazy_load()
 luasnip.config.setup({})
 
 cmp.setup {
-    snippet = {
-        expand = function(args)
-            luasnip.lsp_expand(args.body)
-        end,
+    window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
     },
     mapping = cmp.mapping.preset.insert {
+        ['<C-f>'] = cmp_action.luasnip_jump_forward(), -- TODO test this shit
+        ['<C-b>'] = cmp_action.luasnip_jump_backward(),
+
         ['<C-j>'] = cmp.mapping.select_next_item(),
         ['<C-k>'] = cmp.mapping.select_prev_item(),
         ['<C-J>'] = cmp.mapping.scroll_docs(-4),
@@ -117,5 +105,5 @@ cmp.setup {
 require('fidget').setup {
     window = {
         blend = 0,
-    }
+    },
 }

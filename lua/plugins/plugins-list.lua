@@ -8,8 +8,7 @@ local plugins = {
         "nvim-treesitter/nvim-treesitter", run = ":TSUpdate"
     },
     {
-        "nvim-treesitter/playground"
-    },
+        "nvim-treesitter/playground" },
 
     -- colors
     {
@@ -63,36 +62,25 @@ local plugins = {
 
     -- lsp
     {
-        'neovim/nvim-lspconfig',
-        requires= {
-            -- Automatically install LSPs to stdpath for neovim
+        'VonHeikemen/lsp-zero.nvim',
+        requires = {
+            {'neovim/nvim-lspconfig'},
             {'williamboman/mason.nvim'},
             {'williamboman/mason-lspconfig.nvim'},
 
-            -- Useful status updates for LSP
-            { 'j-hui/fidget.nvim', tag = 'legacy' },
-            -- Additional lua configuration, makes nvim stuff amazing!
-            {'folke/neodev.nvim'},
-        },
-    },
-    {
-        -- Autocompletion
-        'hrsh7th/nvim-cmp',
-        requires = {
-            -- Snippet Engine & its associated nvim-cmp source
-            {'L3MON4D3/LuaSnip'},
+            {'hrsh7th/nvim-cmp'},
+            {'hrsh7th/cmp-buffer'},
+            {'hrsh7th/cmp-path'},
+            {"hrsh7th/cmp-cmdline"},
             {'saadparwaiz1/cmp_luasnip'},
-
-            -- Adds LSP completion capabilities
             {'hrsh7th/cmp-nvim-lsp'},
             {'hrsh7th/cmp-nvim-lua'},
-            {"hrsh7th/cmp-buffer"},
-            {"hrsh7th/cmp-path"},
-            {"hrsh7th/cmp-cmdline"},
 
-            -- Adds a number of user-friendly snippets
+            {'L3MON4D3/LuaSnip'},
             {'rafamadriz/friendly-snippets'},
-        },
+
+            { 'j-hui/fidget.nvim', tag = 'legacy' },
+        }
     },
 
     {
