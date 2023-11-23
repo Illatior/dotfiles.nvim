@@ -2,7 +2,45 @@ return {
     {
         "nvim-telescope/telescope.nvim",
         branch = '0.1.x',
-        dependencies = { "nvim-lua/plenary.nvim" }
+        dependencies = { "nvim-lua/plenary.nvim" },
+        lazy = true,
+        keys = {
+            { '<leader>ff', function() require('telescope.builtin').find_files() end, desc = "[F] Search [F]iles" },
+            { '<leader>fs', function() require('telescope.builtin').git_files() end, desc = "[F] Search Git files" },
+            { '<leader>fh', function() require('telescope.builtin').help_tags() end, desc = "[F] Search [H]elp" },
+            { '<leader>fg', function() require('telescope.builtin').live_grep() end, desc = "[F] Search with live [G]rep" },
+            { '<leader>fd', function() require('telescope.builtin').diagnostics() end, desc = "[F] Search [D]iagnostics" },
+            { '<leader>fr',function() require('telescope.builtin').resume()  end, desc = "[F] Search [R]esume" },
+            { '<leader>?', function() require('telescope.builtin').oldfiles() end, desc = "[?] Search recetly opened files" },
+            { '<leader><space>', function() require('telescope.builtin').buffers() end, desc = "[ ] Search existing buffers" },
+            { 
+                '<leader>/', 
+                function()
+                    -- TODO pass additional configuration to telescope to change theme, layout, etc.
+                    require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+                        winblend = 10,
+                        previewer = false,
+                    })
+                end, 
+                desc = "[/] Fuzzily search in current buffer" 
+            },
+        },
+        opts = {
+            defaults = {
+                mappings = {
+                    i = {
+                        ['<C-u>'] = false,
+                        ['<C-d>'] = false,
+
+                        ['<C-n>'] = false,
+                        ['<C-j>'] = "move_selection_next",
+
+                        ['<C-p>'] = false,
+                        ['<C-k>'] = "move_selection_previous",
+                    },
+                },
+            },
+        },
     },
     {
         "nvim-treesitter/nvim-treesitter", build = ":TSUpdate"
