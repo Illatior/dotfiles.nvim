@@ -49,7 +49,7 @@ return {
                 nmap("gD", function() vim.lsp.buf.declaration() end, "[g]oto [D]eclaration")
                 nmap("gi", function() vim.lsp.buf.implementation() end, "[g]oto [i]mplementation")
                 nmap("go", function() vim.lsp.buf.type_definition() end, "[g]oto type definition")
-                nmap("<C-h>", function() vim.lsp.buf.signature_help() end, "signature help")
+                nmap("<C-k>", function() vim.lsp.buf.signature_help() end, "signature help")
                 nmap("gf", function() vim.lsp.buf.references() end, "[g]oto references")
                 nmap("K", function() vim.lsp.buf.hover() end, "hover documentation")
                 nmap("<leader>vws", function() vim.lsp.buf.workspace_symbol() end, "workspace symbol")
